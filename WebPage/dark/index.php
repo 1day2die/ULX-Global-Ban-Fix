@@ -6,9 +6,12 @@ include "lib/functions.php";
 require __DIR__ . '/lib/dotenv.php';
 require __DIR__ . '/SourceQuery/bootstrap.php';
 
+
 use DevCoder\DotEnv;
 use xPaw\SourceQuery\SourceQuery;
 
+define('SQ_TIMEOUT', 1);
+define('SQ_ENGINE', SourceQuery :: SOURCE);
 
 (new DotEnv(".env"))->load();
 
@@ -18,7 +21,6 @@ $time = microtime();
 $time = explode(' ', $time);
 $time = $time[1] + $time[0];
 $start = $time;
-
 
 //require_once ('SourceQuery/SourceQuery.class.php'); // If you get and error reguarding this line, comment out the line above and use this one :)
 
@@ -50,7 +52,7 @@ if ($connection->connect_error) {
 
 </head>
 <body>
-<div class="container">
+<div class="container mt-4">
     <div class="header"></div>
     <div id="content-title" class="float-end"><?php echo "Servertime: ". date('H:m d.n.Y');?></div>
     <div id="content-title"><?php echo $webname ?> - Global Bans List</div>
@@ -80,15 +82,11 @@ if ($connection->connect_error) {
         $query = "SELECT * FROM servers";
         $result = $connection->query($query);
         while ($row = mysqli_fetch_assoc($result)) {
-            ?>
-            <?php
+
             $fullip = explode(":", $row['IPAddress']);
             $ip = $fullip[0];
             $port = $fullip[1];
 
-
-            define('SQ_TIMEOUT', 1);
-            define('SQ_ENGINE', SourceQuery :: SOURCE);
 
             $Timer = MicroTime(true);
             $Query = new SourceQuery();
@@ -147,6 +145,7 @@ if ($connection->connect_error) {
                     <strong>Banned by</strong>
                 </td>
             </tr>
+        </table>
 
         <?php
         $query = "SELECT * FROM `servers`, `bans` WHERE `servers`.`ServerID` = `bans`.`ServerID` AND NOT `bans`.`Length`= 0 ORDER BY BanID DESC";
@@ -176,6 +175,7 @@ if ($connection->connect_error) {
                     <td width="169"><a href="<?php echo calcSteamID($row['ASteamID']); ?>"><?php echo $row['AName']; ?></a></td>
                 </tr>
             </table>
+
         <?php } ?>
     </div>
 
@@ -203,6 +203,7 @@ if ($connection->connect_error) {
             <strong>Banned by</strong>
         </td>
     </tr>
+</table>
 
     <?php
     $query = "SELECT * FROM `servers`, `bans` WHERE `servers`.`ServerID` = `bans`.`ServerID` AND `bans`.`Length`= 0 ORDER BY BanID DESC";
@@ -229,7 +230,7 @@ if ($connection->connect_error) {
 <footer>
     <div class="container">
         <p class="pull-right">Generated in <span class="badge badge-success">
-					<?php
+                    <?php
                     // Page Generator Time Finish
                     $time = microtime();
                     $time = explode(' ', $time);
