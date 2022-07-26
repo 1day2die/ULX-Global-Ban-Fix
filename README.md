@@ -6,7 +6,7 @@ INFO
 ==============
 * Created out of necessity.
 * Created by NigNog (Bcool) and Adobe Ninja.
-* This Version has been fixed up by 1Day2Die
+* This Version has been fixed up by 1Day2Die#1337 (feel free to contact me on discord)
 
 FEATURES
 ==============
