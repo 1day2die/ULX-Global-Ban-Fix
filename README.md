@@ -39,9 +39,11 @@ INSTALLATION
 ==============
 *Requires MySQLOO v9
 
-Create a new Database and Import the sql file.
+Create a new Database.
 
-Upload the Webfiles to your webserver and configure the Database connection in the index.php
+Upload the Webfiles to your webserver and open the website.
+You should now see the Installer.
+Run through the Installer and everything will be setup for you
 
 Upload the ulx_globalbanmodule to your garrysmod/addons directory and edit "gb_config" to your liking.
 
