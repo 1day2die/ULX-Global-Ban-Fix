@@ -1,20 +1,23 @@
 --ULX Global Ban
 --Adobe And NigNog
---Fixed by 1Day2Die
 ------------------
 
 -- Global Value; can be used in any other supported scripts.
 GB_SERVERID = 0
 
 local function GetServerIP()
-	game.GetIPAddress()
+    if (GetConVarString('ip') == "0.0.0.0") then
+		return game.GetIPAddress()
+    else
+    	return GetConVarString('ip') .. ':' .. GetConVarString('hostport')
+	end
 end
 
 
 function GB_QueryDatabaseForServer()
 	--Gather Identification Infos
 	local HostName = GB_Escape(GetHostName());
-	local IPAddress = game.GetIPAddress();
+	local IPAddress = GetServerIP()
 
 	-- Setting up the Query
 	local HeartbeatQuery = ULX_DB:query("SELECT ServerID FROM servers WHERE IPAddress ='"..IPAddress.."'");
@@ -57,23 +60,24 @@ function GB_UpdateServerName()
 end
 
 function GB_InsertNewServer()
-	--Gather Indentification Infos
-	local HostName = GB_Escape(GetHostName());
-	local IPAddress = game.GetIPAddress();
+    timer.Simple( 10, function()
+        --Gather Indentification Infos
+        local HostName = GB_Escape(GetHostName());
+        local IPAddress = GetServerIP()
 
-	-- local NewServer = ULX_DB:query("INSERT INTO servers (IPAddress, Port, HostName) VALUES ("..IPAddress.."','"..HostPort.."','"..HostName.."')");
-  local NewServer = ULX_DB:prepare("INSERT INTO servers (IPAddress, HostName) VALUES (?,?)")
-  NewServer:setString( 1, IPAddress )
-  NewServer:setString( 2, HostName )
-  function NewServer:onSuccess( data )
-		print("[ULX GB] - Inserted New Server!");
-		GB_QueryDatabaseForServer()
-	end
-	function NewServer:onError(err)
-		print('[ULX GB] (NewServer) - Error: ', err);
-		GB_QueryDatabaseForServer()
-	end
+        -- local NewServer = ULX_DB:query("INSERT INTO servers (IPAddress, Port, HostName) VALUES ("..IPAddress.."','"..HostPort.."','"..HostName.."')");
+      local NewServer = ULX_DB:prepare("INSERT INTO servers (IPAddress, HostName) VALUES (?,?)")
+      NewServer:setString( 1, IPAddress )
+      NewServer:setString( 2, HostName )
+      function NewServer:onSuccess( data )
+            print("[ULX GB] - Inserted New Server!");
+            GB_QueryDatabaseForServer()
+        end
+        function NewServer:onError(err)
+            print('[ULX GB] (NewServer) - Error: ', err);
+            GB_QueryDatabaseForServer()
+        end
 
-	NewServer:start()
-
+        NewServer:start()
+	end )
 end
