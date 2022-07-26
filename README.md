@@ -25,6 +25,9 @@ PLANED/TODO
 
 CHANGELOG
 ==============
+* [ADD]		Web - Steam API
+* [ADD]		Web - Layout Changes
+* [ADD]		Web - Webinstaller
 * [FIX] 	Made Operable again.
 * [ADD] 	Ban removal.
 * [ADD]		Ban Modification.
