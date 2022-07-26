@@ -1,8 +1,8 @@
 AddonInfo {
-  name "ULX GlobalBan Module"
-  version "1.4 Beta!"
-  up_date "14/03/2013"
-  author_name "Adobe Ninja & NigNog"
+  name "ULX GlobalBan Fix"
+  version "1.0"
+  up_date "26/07/2022"
+  author_name "Adobe Ninja & NigNog & 1Day2Die"
   author_email ""
   override "1"
 }
