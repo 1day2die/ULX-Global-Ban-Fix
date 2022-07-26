@@ -1,21 +1,34 @@
 <?php
+	if(!file_exists("install/install.lock")){
+		header("LOCATION: install");
+	}
+    include "lib/functions.php";
+    require  __DIR__ . '/lib/dotenv.php';
+    require __DIR__ . '/SourceQuery/bootstrap.php';
+    use DevCoder\DotEnv;
+    use xPaw\SourceQuery\SourceQuery;
+
+
+    (new DotEnv(".env"))->load();
+
+
 	// Page Generator Time Start Script
 	$time = microtime();
 	$time = explode(' ', $time);
 	$time = $time[1] + $time[0];
 	$start = $time;
 	
-	// Source server Query GET
-	require __DIR__ . '/SourceQuery/bootstrap.php';
-	use xPaw\SourceQuery\SourceQuery;
+
+
+
 	//require_once ('SourceQuery/SourceQuery.class.php'); // If you get and error reguarding this line, comment out the line above and use this one :)
 	
 	// Config to your database - Edit this!
-	$dbhost		= '172.0.0.1';			// Server IP/Domain of where the datab-base resides.
-	$dbdatabase	= '';			// Data-base Name.
-	$dbuser		= '';				// Username.
-	$dbpassword	= '';					// Password.
-	$webname	= 'My Community'		// Title of Community/Server/Website/Domain, pick one.
+	$dbhost		= getEnvironmentValue("MYSQL_HOST");			// Server IP/Domain of where the datab-base resides.
+	$dbdatabase	= getEnvironmentValue("MYSQL_DB");			// Data-base Name.
+	$dbuser		= getEnvironmentValue("MYSQL_USER");				// Username.
+	$dbpassword	= getEnvironmentValue("MYSQL_PASSWORD");					// Password.
+	$webname	= getEnvironmentValue("COMMUNITY_NAME");		// Title of Community/Server/Website/Domain, pick one.
 ?>
 <?php
 	// MySQL Connect/Query
