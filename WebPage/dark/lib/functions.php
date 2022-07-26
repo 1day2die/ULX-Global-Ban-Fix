@@ -4,6 +4,20 @@ $requirements = [
     "mysql" => "5.7.22",
 ];
 
+function calcSteamID($steamID){
+    $steam_id = strtolower($steamID);
+    if (substr($steam_id, 0, 7) == 'steam_0') {
+        $tmp = explode(':', $steam_id);
+    }
+    if ((count($tmp) == 3) && is_numeric($tmp[1]) && is_numeric($tmp[2])) {
+        $steamidCalc = ($tmp[2] * 2) + $tmp[1];
+        $calckey = 1197960265728;
+        $pre = 7656;
+        $steamcid = $steamidCalc + $calckey;
+        return "http://steamcommunity.com/profiles/$pre" . number_format($steamcid, 0, "", "");
+    };
+}
+
 
 function getEnvironmentValue($envKey)
 {
