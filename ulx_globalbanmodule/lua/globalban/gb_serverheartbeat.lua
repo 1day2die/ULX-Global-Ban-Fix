@@ -15,32 +15,33 @@ end
 
 
 function GB_QueryDatabaseForServer()
-	--Gather Identification Infos
-	local HostName = GB_Escape(GetHostName());
-	local IPAddress = GetServerIP()
+    timer.Simple( 12, function()
+        --Gather Identification Infos
+        local HostName = GB_Escape(GetHostName());
+        local IPAddress = GetServerIP()
 
-	-- Setting up the Query
-	local HeartbeatQuery = ULX_DB:query("SELECT ServerID FROM servers WHERE IPAddress ='"..IPAddress.."'");
-  -- local HeartbeatQuery = ULX_DB:prepare("SELECT ServerID FROM servers WHERE IPAddress = ? AND Port = ?");
-	function HeartbeatQuery:onSuccess( data )
-		local row = data[1]
-		-- Query The Database to see if server exists and retrieve the Server's ID
-		if (#data == 0) then
-			-- If Database does not have IP and port create a new row and populate it accordingly
-			print("[ULX GB] - Server not present, creating...");
-			GB_InsertNewServer()
-		elseif (#data == 1) then
-			-- There should be only one entry
-			GB_SERVERID = tonumber(row['ServerID']);
-			GB_UpdateServerName();
-			print("[ULX GB] - ServerID Set To: ".. GB_SERVERID);
-		else
-			print("[ULX GB] (UpdateName) - Error: Multiple entries found for IPAddress "..IPAddress)
-		end
-	end
-	HeartbeatQuery.onError = function(db, err) print('[ULX GB] (HeartbeatQuery) - Error: ', err) end
-	HeartbeatQuery:start()
-
+        -- Setting up the Query
+        local HeartbeatQuery = ULX_DB:query("SELECT ServerID FROM servers WHERE IPAddress ='"..IPAddress.."'");
+      -- local HeartbeatQuery = ULX_DB:prepare("SELECT ServerID FROM servers WHERE IPAddress = ? AND Port = ?");
+        function HeartbeatQuery:onSuccess( data )
+            local row = data[1]
+            -- Query The Database to see if server exists and retrieve the Server's ID
+            if (#data == 0) then
+                -- If Database does not have IP and port create a new row and populate it accordingly
+                print("[ULX GB] - Server not present, creating...");
+                GB_InsertNewServer()
+            elseif (#data == 1) then
+                -- There should be only one entry
+                GB_SERVERID = tonumber(row['ServerID']);
+                GB_UpdateServerName();
+                print("[ULX GB] - ServerID Set To: ".. GB_SERVERID);
+            else
+                print("[ULX GB] (UpdateName) - Error: Multiple entries found for IPAddress "..IPAddress)
+            end
+        end
+        HeartbeatQuery.onError = function(db, err) print('[ULX GB] (HeartbeatQuery) - Error: ', err) end
+        HeartbeatQuery:start()
+	end)
 end
 
 function GB_UpdateServerName()
@@ -60,7 +61,6 @@ function GB_UpdateServerName()
 end
 
 function GB_InsertNewServer()
-    timer.Simple( 10, function()
         --Gather Indentification Infos
         local HostName = GB_Escape(GetHostName());
         local IPAddress = GetServerIP()
@@ -79,5 +79,4 @@ function GB_InsertNewServer()
         end
 
         NewServer:start()
-	end )
 end
