@@ -1,7 +1,7 @@
 ULX-Global-Ban
 ==============
 A Global Ban System designed to be used only with ULX & ULib Garry's Mod servers.  
-This Version has been fixed up by 1Day2Die#1337 (feel free to contact me on discord https://discord.io/hafuga)
+This Version has been fixed up by 1Day2Die#1337 (feel free to contact me on discord https://discord.gg/RKjkQnUbHy or via DM)
 
 INFO
 ==============
