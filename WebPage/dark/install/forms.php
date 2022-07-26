@@ -73,7 +73,15 @@ header("LOCATION: index.php?step=3");
 
 if (isset($_POST['insertName'])) {
 
-        setEnvironmentValue("COMMUNITY_NAME", $_POST["cname"]);
+    $values = [
+        "COMMUNITY_NAME" => "cname",
+        "STEAM_API_KEY" => "apikey"
+    ];
+
+    foreach ($values as $key => $value) {
+        $param = $_POST[$value];
+        setEnvironmentValue($key, $param);
+    }
 
 
     $lockfile = fopen("install.lock", "w") or die("Unable to open file!");
@@ -81,5 +89,7 @@ if (isset($_POST['insertName'])) {
     fclose($lockfile);
     header("LOCATION: ../");
 }
+
+
 
 ?>

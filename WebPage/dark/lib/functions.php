@@ -4,7 +4,7 @@ $requirements = [
     "mysql" => "5.7.22",
 ];
 
-function calcSteamID($steamID){
+function calcSteamID($steamID, $onlyID = false){
     $steam_id = strtolower($steamID);
     if (substr($steam_id, 0, 7) == 'steam_0') {
         $tmp = explode(':', $steam_id);
@@ -14,8 +14,17 @@ function calcSteamID($steamID){
         $calckey = 1197960265728;
         $pre = 7656;
         $steamcid = $steamidCalc + $calckey;
-        return "http://steamcommunity.com/profiles/$pre" . number_format($steamcid, 0, "", "");
+        if ($onlyID == false) {
+            return "http://steamcommunity.com/profiles/$pre" . number_format($steamcid, 0, "", "");
+        }else{
+            return $pre . number_format($steamcid, 0, "", "");
+        }
     };
+}
+
+function obtainPlayerInfo($steamID){
+    $json = file_get_contents("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=".getEnvironmentValue("STEAM_API_KEY")."&steamids=".calcSteamID($steamID,true));
+    return json_decode($json);
 }
 
 

@@ -133,7 +133,7 @@ if (isset($_GET['step']) && $_GET['step'] == 2) {
 if (isset($_GET['step']) && $_GET['step'] == 3) {
 echo $cardheader;
 ?>
-<p class="login-box-msg">Last step: Whats your Community Name?</p>
+<p class="login-box-msg"> Whats your Community Name?</p>
 <?php if (isset($_GET['message'])) {
     echo "<p class='notok'>" . $_GET['message'] . "</p>";
 }
@@ -153,12 +153,22 @@ echo $cardheader;
                 </div>
             </div>
         </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="custom-control mb-3">
+                        <a for="name">Steam API key from <a href="https://steamcommunity.com/dev/apikey" target="blank">https://steamcommunity.com/dev/apikey</a></label>
+                        <input x-model="apikey" id="apikey" name="apikey" type="text"
+                               required
+                               value="" class="form-control">
+                    </div>
+                </div>
+            </div>
         <button class="btn btn-primary" name="insertName">Submit</button>
     </form>
     </div>
     <?php
     }
-    ?>
+?>
 
 
 </body>

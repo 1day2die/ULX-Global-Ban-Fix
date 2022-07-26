@@ -36,9 +36,8 @@ if ($connection->connect_error) {
     die("DB Connection failed: " . $connection->connect_error);
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -153,6 +152,7 @@ if ($connection->connect_error) {
         $query = "SELECT * FROM `servers`, `bans` WHERE `servers`.`ServerID` = `bans`.`ServerID` AND NOT `bans`.`Length`= 0 ORDER BY BanID DESC";
         $result = $connection->query($query);
         while ($row = mysqli_fetch_assoc($result)) {
+
             ?>
             <table width="100%" class="status" border="0">
 
@@ -208,6 +208,7 @@ if ($connection->connect_error) {
     $query = "SELECT * FROM `servers`, `bans` WHERE `servers`.`ServerID` = `bans`.`ServerID` AND `bans`.`Length`= 0 ORDER BY BanID DESC";
     $result = $connection->query($query);
     while ($row = mysqli_fetch_assoc($result)) {
+
         ?>
         <table width="100%" class="status" border="0">
 
@@ -215,7 +216,7 @@ if ($connection->connect_error) {
                 <td width="28">&nbsp;<img src="css/img/gameicon/gmod.png" title="<?php echo $row['HostName']; ?>"
                                width="16" height="16"/></td>
                 <td width="155"><a href="<?php echo calcSteamID($row['OSteamID']) ?>"><?php echo $row['OSteamID']; ?></a></td>
-                <td width="162" ><?php echo $row['OName']; ?></td>
+                <td width="162"><?php echo $row['OName']; ?></td>
                 <td width="323"><?php echo $row['Reason'] ?></td>
 
                 <td width="169"><a href="<?php echo calcSteamID($row['ASteamID']); ?>"><?php echo $row['AName']; ?></a></td>
