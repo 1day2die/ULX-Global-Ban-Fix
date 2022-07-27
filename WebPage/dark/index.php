@@ -54,7 +54,7 @@ if ($connection->connect_error) {
 <body>
 <div class="container mt-4">
     <div class="header"></div>
-    <div id="content-title" class="float-end"><?php echo "Servertime: ". date('H:m d.n.Y');?></div>
+    <div id="content-title" class="float-end"><?php echo "Servertime: ". date('H:i d.n.Y');?></div>
     <div id="content-title"><?php echo $webname ?> - Global Bans List</div>
     <div class="content">
         <div id="topic-title">Server List</div>

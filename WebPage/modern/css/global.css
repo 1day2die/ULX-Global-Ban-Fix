@@ -1,0 +1,92 @@
+body{
+	background-color: black;
+	width: 100%;
+	background-image: url("img/bg1.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.headercontent{
+	margin-left: 15%;
+	margin-right: 15%;
+	margin-top: 2%;
+	color: white;
+	background-color: rgba(0,0,0,.5);
+	padding: 1%;
+}
+
+.servertable th, .tabletempban th, .tablepermban th {
+	background-image:  url("img/bg.png");
+}
+
+#content-title{
+	font-size: 22px;
+	color: #0079BF;
+}
+
+
+.banlistcontent{
+	margin-top:1em;
+	width: 100%;
+	margin-bottom:5em;
+
+}
+
+.tabletempban{
+	width:55%;
+	background-color: rgba(0,0,0,.5);
+	padding: 10px;
+	margin-bottom:10em;
+}
+.tablepermban{
+	width:43%;
+	background-color: rgba(0,0,0,.5);
+	padding: 10px;
+	margin-bottom:5em;
+
+
+}
+
+#table-title{
+	text-align: center;
+	justify-content: center;
+	font-size: 18px;
+	color: #FF0000;
+	margin-top: .3em;
+	margin-bottom: .3em;
+	text-shadow: 1px 1px #000;
+
+}
+
+
+.footer{
+	position: fixed;
+	bottom: 0pt;
+	left: 0pt;
+	width:100%;
+
+}
+
+td{
+	margin-top:5px;
+	margin-bottom: 5px;
+}
+
+#credits{
+	margin-left: 5em;
+}
+
+[class^="dataTables_"]{
+	color: white !important;;
+}
+[id^="tempbantable_"]{
+	color: white !important;
+}
+[class^="paginate"]{
+	color: white !important;
+	background-color:lightblue !important;
+}
+
+input, select{
+	color:white;
+}

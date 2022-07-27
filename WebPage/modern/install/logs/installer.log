@@ -1,0 +1,8 @@
+[08:55:10] mysqli_sql_exception: Table 'bans' already exists in C:\xampp\htdocs\dark\install\forms.php:57
+Stack trace:
+#0 C:\xampp\htdocs\dark\install\forms.php(57): mysqli->query('CREATE TABLE `b...')
+#1 {main}
+[08:55:25] mysqli_sql_exception: Table 'bans' already exists in C:\xampp\htdocs\dark\install\forms.php:57
+Stack trace:
+#0 C:\xampp\htdocs\dark\install\forms.php(57): mysqli->query('CREATE TABLE `b...')
+#1 {main}

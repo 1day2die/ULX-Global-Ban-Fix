@@ -39,10 +39,10 @@
 	$Database_Password	= "";
 	
 	// Page Settings
-	$Title		= "TheCodingBeast # Ban List";
+	$Title		= "Gmod Server # Ban List";
 	$Color		= "Dark"; // White, Blue, Green, Sky, Orange, Red, Dark
 	
-	$PageTitle	= "TheCodingBeast Ban List";
+	$PageTitle	= "Gmod Server Ban List";
 	
 	// Language
 	$T_ServerList = "Server List";
