@@ -27,7 +27,8 @@ PLANED/TODO
 * Nothing
 
 CHANGELOG
-==============
+==============,
+* [ADD]		Web - New Modern theme
 * [ADD]		Web - Steam API
 * [ADD]		Web - Layout Changes
 * [ADD]		Web - Webinstaller
