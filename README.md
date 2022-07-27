@@ -11,7 +11,8 @@ INFO
 
 FEATURES
 ==============
-![image](https://user-images.githubusercontent.com/8725848/180983272-ed90c344-f576-4316-828d-a7a76f1089f6.png)
+![image](https://user-images.githubusercontent.com/8725848/181248174-c2ca0b3a-65e5-4ef4-b7b6-eee48318e8a2.png)
+
 
 Server Identification: When your server starts, it checks to see whether or not the IP:Port configuration is already there. If it's not it'll create it and assign the server an ID. If it is it'll assign the server an existing ID.
 
