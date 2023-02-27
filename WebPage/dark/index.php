@@ -112,10 +112,9 @@ if ($connection->connect_error) {
                     <td width="160"><a href="steam://connect/<?php echo $ip; ?>:<?php echo $port; ?>"><?php echo $ip; ?>
                             :<?php echo $port; ?></a></td>
                     <td width="438"><?php echo $row['HostName']; ?></td>
-                    <td width="182"><?php echo htmlspecialchars($Info['ModDesc']); ?></td>
-                    <td width="159"><?php echo htmlspecialchars($Info['Map']); ?></td>
-                    <td width="51"><?php echo htmlspecialchars($Info['Players']); ?><?php echo '/';
-                        echo htmlspecialchars($Info['MaxPlayers']); ?></td>
+                <td width="182"><?php echo (isset($Info['ModDesc']) ? htmlspecialchars($Info['ModDesc']) : "N/A"); ?></td>
+                 <td width="159"><?php echo (isset($Info['Map']) ? htmlspecialchars($Info['Map']) : "N/A"); ?></td>
+                  <td width="51"><?php echo (isset($Info['Players']) ? htmlspecialchars($Info['Players']) . " / " . htmlspecialchars($Info['MaxPlayers']) : "N/A"); ?></td>            </tr>
                 </tr>
             </table>
         <?php } ?>

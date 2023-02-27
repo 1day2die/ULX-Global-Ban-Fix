@@ -1,3 +1,5 @@
 
 WebPage/modern/.idea/*
 WebPage/modern/.idea/php.xml
+WebPage/modern/.env
+WebPage/modern/install/install.lock
