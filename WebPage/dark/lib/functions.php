@@ -70,7 +70,7 @@ function getMySQLVersion()
 
     $versionoutput = $version[0] ?? "0";
 
-    return (intval($versionoutput) > intval($requirements["mysql"]) ? "OK" : $versionoutput);
+    return(version_compare($versionoutput, $requirements["mysql"], ">") ? "OK" : $versionoutput);
 }
 
 function checkWriteable()
