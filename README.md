@@ -52,6 +52,7 @@ INSTALLATION
 ==============
 *Requires MySQLOO v9
 *Requires ULX and ULib
+*Requires PHP Extention gmp (apt install phpx.x-gmp)
 
 Create a new Database.
 
