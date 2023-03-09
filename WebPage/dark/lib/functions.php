@@ -7,6 +7,9 @@ $requirements = [
 
 
 function calcSteamID($steamID, $onlyID = false){
+        if($steamID === "CONSOLE"){
+            return "http://steamcommunity.com";
+        }
         $s = new SteamID( $steamID );
     
         if ($onlyID == false) {
