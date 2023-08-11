@@ -188,7 +188,7 @@ function ULib.refreshBans()
 			for k, v in pairs( ULib.bans ) do
 				xgui.ulxbans[k] = v           -- Make sure it loads bans!
 			end
-			---------------z`-----------------
+			---------------ok-----------------
 			local t = {}
 			t[data[i]['OSteamID']] = ULib.bans[data[i]['OSteamID']]
 			xgui.addData( {}, "bans", t ) -- This will error out on startup (Most Times, GMod 13's Addon Loading is fucked), but that's fine, all ban data gets loaded already
