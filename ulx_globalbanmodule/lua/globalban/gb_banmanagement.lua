@@ -1,5 +1,5 @@
 --ULX Global Ban
---Adobe And NigNog
+--Adobe And NigNog and hounddog
 ------------------
 include('globalban/gb_config.lua')
 ------------------
@@ -7,8 +7,8 @@ include('globalban/gb_config.lua')
 -- Overwrite The Ulib Function on a global scope
 function ULib.addBan( steamid, time, reason, name, admin )
 	-- No SteamID / Time, stop the script
-	if steamid == nil then return end
-	if time == nil then return end
+	if steamid == nil then print('ERROR: [ULX GB] no steam id, contact dev.')return end
+	if time == nil then return print('ERROR: [ULX GB] no time for ban found, contact dev.') end
 
 	-- No Name!? Insert a false one
 	if (name == nil) then
@@ -68,12 +68,12 @@ function GB_InsertBan(steamid, name, BanLength, AdminName, AdminSteam, reason)
 	-- local String = "INSERT INTO bans VALUES ('','"..steamid.."','"..GB_Escape(name).."','"..BanLength.."','"..os.time().."',
 	-- '"..GB_Escape(AdminName).."','"..AdminSteam.."','"..GB_Escape(reason).."','"..GB_SERVERID.."','','"..os.time().."');"
 	local String = "INSERT INTO bans (OSteamID, OName, Length, Time, AName, ASteamID, Reason, ServerID, MAdmin, MTime) VALUES (?,?,?,?,?,?,?,?,?,?);"
-
+	
 	-- if name == nil then
 		-- String = "INSERT INTO bans VALUES ('','"..steamid.."',NULL,'"..BanLength.."','"..os.time().."','"..GB_Escape(AdminName).."','"..AdminSteam.."','"..GB_Escape(reason).."','"..GB_SERVERID.."','','"..os.time().."');"
 	-- 	name = 'NULL'
 	-- end
-
+	if String then print(String) end
 	-- local AddBanQuery = ULX_DB:query(String)
 	local AddBanQuery = ULX_DB:prepare(String)
 	AddBanQuery:setString( 1, steamid )
@@ -122,10 +122,12 @@ function GB_ModifyBan(name, BanLength, reason, time, AdminName, steamid)
 	UpdateBanQuery:setString( 5, GB_Escape(AdminName) )
 	UpdateBanQuery:setString( 6, steamid )
 	function UpdateBanQuery.onSuccess()
-		print("[ULX GB] - Ban Modified!");
+		
 		if name == nil then
+			print("[ULX GB] - ".."Unbanning ID "..steamid..", automatically");
 			ULib.bans[steamid] = { unban = tonumber(BanLength), admin = AdminName, reason = reason, modified_admin = GB_Escape(AdminName), modified_time = tonumber(time) };
 		else
+			print("[ULX GB] - ".."Unbanning ID "..steamid..", automatically, their name is NULL?");
 			ULib.bans[steamid] = { unban = tonumber(BanLength), name = name, admin = AdminName, reason = reason, modified_admin = GB_Escape(AdminName), modified_time = tonumber(time) };
 		end
 	end
@@ -144,7 +146,7 @@ function ULib.unban( steamid )
 	local UnBanQuery = ULX_DB:prepare("DELETE FROM bans WHERE OSteamID=?");
 	UnBanQuery:setString( 1, steamid )
 	function UnBanQuery.onSuccess()
-		print("[ULX GB] - Ban Removed!");
+		print(os.date("%m/%d/%y %H:%M").."[ULX GB] - Ban Expired for "..steamid..".");
 		ULib.bans[steamid] = nil;
 	end
 	function UnBanQuery.onError(err, sql)
@@ -153,7 +155,7 @@ function ULib.unban( steamid )
 	end
 	UnBanQuery:start()
 
-	--Possible Glitch Fix, Just Incase
+	-- Possible Glitch Fix, Just Incase
 	-- yeah idk either
 	RunConsoleCommand('removeid',steamid);
 
@@ -171,7 +173,8 @@ function ULib.refreshBans()
 	xgui.ulxbans = {}
 
 	local BanList = ULX_DB:query("SELECT * FROM bans ORDER BY BanID DESC")
-	if !BanList then return end -- Fix Error when MySQL Server failure
+
+	if !BanList then print('ERROR: Unable to communicate with the DB?')return end -- Fix Error when MySQL Server failure
 
 	function BanList:onSuccess( data )
 		for i = 1, #data do
@@ -185,7 +188,7 @@ function ULib.refreshBans()
 			for k, v in pairs( ULib.bans ) do
 				xgui.ulxbans[k] = v           -- Make sure it loads bans!
 			end
-			---------------------------------
+			---------------ok-----------------
 			local t = {}
 			t[data[i]['OSteamID']] = ULib.bans[data[i]['OSteamID']]
 			xgui.addData( {}, "bans", t ) -- This will error out on startup (Most Times, GMod 13's Addon Loading is fucked), but that's fine, all ban data gets loaded already
@@ -208,12 +211,29 @@ local banJoinMsg = [[
 By: %s
 Reason: %s
 Banned since: %s
-Time Left: %s]]
+Time Left: %s
+
+If you wish to appeal your ban, please appeal at darkstorm.cc/appeal
+
+]]
 local function checkBan( steamid64, ip, password, clpassword, name )
+	
+	
+	
     local steamid = GB_ComIDtoSteamID(steamid64)
+	print('[ULX GB] checking '..steamid..' '..ip..' '..name) 
     local banData = ULib.bans[ steamid ]
+	if banData then
+		for k,v in pairs(banData) do
+			print(v)
+		end
+		print('time '..banData.time)
+	end
+	
     print("[ULX GB] AUTHING PLAYER: " .. name .. ' WITH SteamID: ' .. steamid)
-    if not banData then return end -- Not banned
+    if not banData then
+		 return print('[ULX GB] No ban found for '..steamid..'.') 
+	end -- Not banned
 
     local admin = "Console"
     if banData.admin and banData.admin ~= "" then
@@ -228,23 +248,29 @@ local function checkBan( steamid64, ip, password, clpassword, name )
     local timeban = "Unknown"
     if banData.time > 0 then
         timeban = os.date("%m/%d/%y %H:%M", timeban.time)
+		--print('aftermod'..timeban)
     end
 
     local unbanStr = nil
+	
     local unban = tonumber( banData.unban )
-    if unban and unban > 0 then
-        unbanStr = ULib.secondsToStringTime( unban - os.time() )
-    end
 
-    if reason or unbanStr then -- Only give this message if we have something useful to display
-        Msg(string.format("%s (%s)<%s> was kicked by ULib because they are on the ban list\n", name, steamid, ip))
-        return false, banJoinMsg:format( admin, reason, timeban, unbanStr or "(Permaban)" )
+    if unban and unban > 0 then -- if unban time exists and is > 0 
+		
+        unbanStr = ULib.secondsToStringTime( unban - os.time() )
+		--print("time test ="..unbanStr) PASSED
     end
-	local bantime = BanInfo.unban
+	
+	local bantime = banData.unban
+	--print('bantime'..bantime)
     if (bantime <= os.time() && bantime != 0) then
 			print("[ULX GB] - Removing expired bans!");
-			ULib.unban(SteamID);
-		end
+			ULib.unban(steamid);
+	elseif reason or unbanStr then -- Only give this message if we have something useful to display
+        Msg(string.format("[ULX GB] ".."%s (%s)<%s> was kicked because they are on the ban list\n", name, steamid, ip))
+        return false, banJoinMsg:format( admin, reason, timeban, unbanStr or "(Permaban)" )
+    end
+	
 end
 hook.Add( "CheckPassword", "CheckPassword_GB", checkBan )
 
