@@ -33,7 +33,11 @@ PLANED/TODO
 * Nothing
 
 CHANGELOG
-==============,
+==============
+2025
+* [FIX] Temp bans not being removed
+
+--
 * [ADD]		Web - New Modern theme
 * [ADD]		Web - Steam API
 * [ADD]		Web - Layout Changes
